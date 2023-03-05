@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/jh871/Team-Profile-Generator#readme",
   "dependencies": {
-    "inquirer": "^9.1.4",
+    "inquirer": "^6.5.2",
     "jest": "^29.4.3"
   }
 }
