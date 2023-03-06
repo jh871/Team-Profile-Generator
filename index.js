@@ -149,7 +149,14 @@ function exitPrompt(){
         name: 'back-to-menu',
         message: 'Press ENTER to be finish'
         }
-    ];
+    ]; //this then runs fs to generate HTML - uses render function
 }
 
-collectData();
+//calling render "passes in array containing all employee objects"
+//the render function returns html block
+
+//THEN fs is used to generate file named 'team.html'
+
+// can send file to 'output' folder (create this myself, use outputPath to target)
+
+collectData(); //this kicks off inquirer with manager qs - could rename
