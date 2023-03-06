@@ -9,9 +9,12 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
-
+const team = require("./src/page-template.js"); //added but not doing anything
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+//need to req team from render
+
+
 const manager = [
     {
         type: 'input',
@@ -99,11 +102,12 @@ const intern = [
     }
 ];
 
-
+const teamArray = [];
 function collectData(){
-    inquirer.prompt(manager).then((manager) => {
-        const managerEntry = new Manager(manager.name, manager.id, manager.email)
-        managerEntry.officeNumber = manager.officeNumber;
+    inquirer.prompt(manager).then((managerResponse) => {
+        const manager = new Manager(managerResponse.name, managerResponse.id, managerResponse.email)
+        manager.officeNumber = managerResponse.officeNumber;
+        teamArray.push(manager)
         if (manager.role === 'Engineer'){
             engineerPrompt();
         } else if (manager.role === 'Intern') {
@@ -115,9 +119,10 @@ function collectData(){
 }
 
 function engineerPrompt(){
-    inquirer.prompt(engineer).then((engineer) => {
-        const engineerEntry = new Engineer(engineer.name, engineer.id, engineer.email)
-        engineerEntry.github = engineer.github;
+    inquirer.prompt(engineer).then((engineerResponse) => {
+        const engineer = new Engineer(engineerResponse.name, engineerResponse.id, engineerResponse.email)
+        engineer.github = engineerResponse.github;
+        teamArray.push(engineer)
         if (engineer.role === 'Engineer'){
             engineerPrompt();
         } else if (engineer.role === 'Intern') {
@@ -129,9 +134,10 @@ function engineerPrompt(){
 }
 
 function internPrompt(){
-    inquirer.prompt(intern).then((intern) => {
-        const internEntry = new Intern(intern.name, intern.id, intern.email)
-        internEntry.school = intern.school;
+    inquirer.prompt(intern).then((internResponse) => {
+        const intern = new Intern(internResponse.name, internResponse.id, internResponse.email)
+        intern.school = internResponse.school;
+        teamArray.push(intern)
         if (intern.role === 'Engineer'){
             engineerPrompt();
         } else if (intern.role === 'Intern') {
@@ -149,14 +155,21 @@ function exitPrompt(){
         name: 'back-to-menu',
         message: 'Press ENTER to be finish'
         }
-    ]; //this then runs fs to generate HTML - uses render function
+    ]; 
+    function render(teamArray){
+        return team;
+    };
+    //this then runs fs to generate HTML - uses render function
 }
-
+//
 //calling render "passes in array containing all employee objects"
 //the render function returns html block
 
-//THEN fs is used to generate file named 'team.html'
 
+//THEN fs is used to generate file named 'team.html'
+fs.writeFile('team.html', team, (error) => { //this doesnt work at this time bc what is team - needs string
+error ? console.error(error) : "Check output directory for file"
+})
 // can send file to 'output' folder (create this myself, use outputPath to target)
 
 collectData(); //this kicks off inquirer with manager qs - could rename
