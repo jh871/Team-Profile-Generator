@@ -10,9 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 // const team = require("./src/page-template.js"); //added but not doing anything
+//need Employee
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
-//need to req team from render
+
 
 
 const manager = [
@@ -133,6 +134,7 @@ function engineerPrompt(){
     });
 }
 
+//runs intern questions, creates intern object, pushes to array, asks user to select what to do next
 function internPrompt(){
     inquirer.prompt(intern).then((internResponse) => {
         const intern = new Intern(internResponse.name, internResponse.id, internResponse.email)
@@ -148,6 +150,7 @@ function internPrompt(){
     });
 }
 
+//end creation of team members and render HTML file
 function exitPrompt(){
     const exit = [
         {
@@ -156,25 +159,17 @@ function exitPrompt(){
         message: 'Press ENTER to be finish'
         }
     ]; 
-    console.log(teamArray);
+    
     writeHTMLfile();
-    //this then runs fs to generate HTML - uses render function
 }
-//
-//calling render "passes in array containing all employee objects"
-//the render function returns html block
-function render(teamArray){
-    return teamHTML;
-};
 
 
-
-
-//THEN fs is used to generate file named 'team.html'
+//generates html file: runs render function on team array, then passes result into fs function
 function writeHTMLfile(){
-fs.writeFile('team.html', teamHTML, (error) => { //this doesnt work at this time bc what is team - needs string
-error ? console.error(error) : "Check output directory for file"
-})
+    const teamHTML = render(teamArray);
+    fs.writeFile('team.html', teamHTML, (error) => { //this doesnt work at this time bc what is team - needs string
+        error ? console.error(error) : "Check output directory for file"
+    })
 }
 // can send file to 'output' folder (create this myself, use outputPath to target)
 
