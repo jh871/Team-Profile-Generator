@@ -10,9 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
 
 
+//Manager question prompts including option to select next role
 const manager = [
     {
         type: 'input',
@@ -42,6 +42,7 @@ const manager = [
     }
 ];
 
+//Engineer Qs
 const engineer = [
         {
             type: 'input',
@@ -71,6 +72,7 @@ const engineer = [
     }
 ];
 
+//Intern Qs
 const intern = [
     {
         type: 'input',
@@ -100,8 +102,11 @@ const intern = [
     }
 ];
 
+//blank array to hold generated team member objects
 const teamArray = [];
-function collectData(){
+
+//first prompt qs are for manager, then creates manager object and pushes it to array. The user can then choose which profile to make next.
+function launchPrompt(){
     inquirer.prompt(manager).then((managerResponse) => {
         const manager = new Manager(managerResponse.name, managerResponse.id, managerResponse.email)
         manager.officeNumber = managerResponse.officeNumber;
@@ -116,6 +121,7 @@ function collectData(){
     });
 }
 
+//runs engineer questions when called, then creates engineer object, pushes to array, asks user to select what to do next.
 function engineerPrompt(){
     inquirer.prompt(engineer).then((engineerResponse) => {
         const engineer = new Engineer(engineerResponse.name, engineerResponse.id, engineerResponse.email)
@@ -131,7 +137,7 @@ function engineerPrompt(){
     });
 }
 
-//runs intern questions, creates intern object, pushes to array, asks user to select what to do next
+//runs intern questions when called, then creates intern object, pushes to array, asks user to select what to do next.
 function internPrompt(){
     inquirer.prompt(intern).then((internResponse) => {
         const intern = new Intern(internResponse.name, internResponse.id, internResponse.email)
@@ -161,13 +167,13 @@ function exitPrompt(){
 }
 
 
-//generates html file: runs render function on team array, then passes result into fs function
+//generates html file: runs render function on team array, then passes result into fs function; completed file is sent to 'output' folder
 function writeHTMLfile(){
     const teamHTML = render(teamArray);
-    fs.writeFile(outputPath, teamHTML, (error) => { //this doesnt work at this time bc what is team - needs string
+    fs.writeFile(outputPath, teamHTML, (error) => {
         error ? console.error(error) : "Check output directory for file"
     })
 }
-// can send file to 'output' folder (create this myself, use outputPath to target)
 
-collectData(); //this kicks off inquirer with manager qs - could rename
+//launches whole thing:
+launchPrompt();
