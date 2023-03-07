@@ -9,11 +9,8 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
-// const team = require("./src/page-template.js"); //added but not doing anything
-//need Employee
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
-
 
 
 const manager = [
@@ -167,7 +164,7 @@ function exitPrompt(){
 //generates html file: runs render function on team array, then passes result into fs function
 function writeHTMLfile(){
     const teamHTML = render(teamArray);
-    fs.writeFile('team.html', teamHTML, (error) => { //this doesnt work at this time bc what is team - needs string
+    fs.writeFile(outputPath, teamHTML, (error) => { //this doesnt work at this time bc what is team - needs string
         error ? console.error(error) : "Check output directory for file"
     })
 }
